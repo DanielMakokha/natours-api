@@ -20,17 +20,22 @@ exports.getAllTours= async(req,res) =>{
     });
    }
     
-exports.getTour=(req,res) =>{
-    console.log(req.params);
-    const id=req.params.id * 1;
+exports.getTour=async (req,res) =>{
+    try {
+        await Tour.findById(req.params.id);
+        res.status(200).json({
+            status:'success',
+            data: {
+                tour
+            }
+        });
+    } catch (err) {
+        res.status(404).json({
+            status:'fail',
+            message:err
+    })
     
-    // const tour= tours.find(el => el.id === id)
-    // res.status(200).json({
-    //     status:'success',
-    //     data: {
-    //         tour
-    //     }
-    // });
+    
 }
 
 exports.createTour= async (req,res) =>{
@@ -66,10 +71,8 @@ exports.updateTour=(req,res) =>{
 }
 
 exports.deleteTour=(req,res) =>{
-     
-    
-    res.status(204).json({
+      res.status(204).json({
         status:'success',
         data:null
-    })
-}
+    });
+};
